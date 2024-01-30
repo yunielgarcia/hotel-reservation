@@ -2,13 +2,20 @@ package api;
 
 import model.Customer;
 import model.IRoom;
-import model.Reservation;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 public class AdminResources {
+    private static final AdminResources adminResources = new AdminResources();
+
+    private AdminResources() {
+    }
+
+    public static AdminResources getInstance() {
+        return adminResources;
+    }
+
     public Customer getCustomer(String email) {
         return null;
     }
