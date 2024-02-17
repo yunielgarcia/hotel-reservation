@@ -4,13 +4,11 @@ public class Room  implements IRoom{
     private final String roomNumber;
     private final Double roomPrice;
     private final RoomType roomType;
-    private final boolean isFree;
 
-    public Room(String roomNumber, Double roomPrice, RoomType roomType, boolean isFree) {
+    public Room(String roomNumber, Double roomPrice, RoomType roomType) {
         this.roomNumber = roomNumber;
         this.roomPrice = roomPrice;
         this.roomType = roomType;
-        this.isFree = isFree;
     }
 
     @Override
@@ -30,11 +28,11 @@ public class Room  implements IRoom{
 
     @Override
     public boolean isFree() {
-        return this.isFree;
+        return this.roomPrice == 0;
     }
 
     @Override
     public String toString() {
-        return this.roomNumber;
+        return "Room #" + this.roomNumber + ", type " + this.roomType + " at $" + this.roomPrice;
     }
 }
