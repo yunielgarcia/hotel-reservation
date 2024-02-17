@@ -22,7 +22,7 @@ public class CustomerService {
     }
 
     public Collection<Customer> getAllCustomers() {
-        return null;
+        return customersList.values();
     }
 
     public static CustomerService getInstance() {

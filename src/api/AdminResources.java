@@ -3,6 +3,7 @@ package api;
 import model.Customer;
 import model.IRoom;
 import model.Room;
+import service.CustomerService;
 import service.ReservationService;
 
 import java.util.Collection;
@@ -10,6 +11,7 @@ import java.util.Collection;
 public class AdminResources {
     private static final AdminResources adminResources = new AdminResources();
     private final ReservationService reservationService = ReservationService.getInstance();
+    private final CustomerService customerService = CustomerService.getInstance();
 
     private AdminResources() {
     }
@@ -29,6 +31,8 @@ public class AdminResources {
     public Collection<Room> getAllRooms(){
         return reservationService.getAllRooms();
     }
-    public Collection<Customer> getAllCustomers(){return null;}
+    public Collection<Customer> getAllCustomers(){
+        return this.customerService.getAllCustomers();
+    };
     public void displayAllReservations(){}
 }

@@ -1,11 +1,11 @@
 package ui;
 
 import api.AdminResources;
+import model.Customer;
 import model.Room;
 import model.RoomType;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Scanner;
 
 import static ui.MainMenu.start;
@@ -44,6 +44,14 @@ public class AdminMenu {
     }
 
     private static void seeAllCustomers() {
+        Collection<Customer> customers = adminResources.getAllCustomers();
+
+        if (customers.isEmpty()) {
+            System.out.println("No customers found.");
+        } else {
+            customers.forEach(System.out::println);
+        }
+        adminMenu();
     }
 
     private static void addRoom() {
@@ -69,13 +77,12 @@ public class AdminMenu {
     private static void seeAllRooms() {
         Collection<Room> rooms = adminResources.getAllRooms();
 
-        if(rooms.isEmpty()) {
+        if (rooms.isEmpty()) {
             System.out.println("No rooms found.");
         } else {
             rooms.forEach(System.out::println);
         }
         adminMenu();
-
     }
 
     public static void printAdminOptions() {
