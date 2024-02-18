@@ -13,6 +13,7 @@ public class CustomerService {
     private CustomerService() {}
 
     public void addCustomer(String email, String first, String last) {
+        // todo: add validation for existing emails/accounts
         Customer c = new Customer(first, last, email);
         this.customersList.put(email, c);
     }

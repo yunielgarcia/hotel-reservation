@@ -3,7 +3,9 @@ package api;
 import model.Customer;
 import model.IRoom;
 import model.Reservation;
+import model.Room;
 import service.CustomerService;
+import service.ReservationService;
 
 import java.util.Collection;
 import java.util.Date;
@@ -13,6 +15,7 @@ public class HotelResources {
     private static final HotelResources reference = new HotelResources();
 
     CustomerService customerService = CustomerService.getInstance();
+    ReservationService reservationService = ReservationService.getInstance();
 
     private HotelResources() {}
 
@@ -24,20 +27,24 @@ public class HotelResources {
         customerService.addCustomer(email, firstName, lastName);
     }
 
-    public IRoom getRoom(String roomNumber) {
-        return null;
+    public Room getRoom(String roomNumber) {
+        return reservationService.getRoom(roomNumber);
     }
 
-    public Reservation bookARoom(String customerEmail, IRoom room, Date chekInDate, Date checkOutDate) {
-        return null;
+    public Reservation bookARoom(String customerEmail, Room room, Date chekInDate, Date checkOutDate) {
+        return reservationService.reserveARoom(
+                customerService.getCustomer(customerEmail),
+                room,
+                chekInDate,
+                checkOutDate);
     }
 
     public Collection<Reservation> getCustomerReservations(String customerEmail) {
-        return null;
+        return reservationService.getCustomersReservation(customerEmail);
     }
 
-    public Collection<IRoom> findARoom(Date checkIn, Date checkout) {
-        return null;
+    public Collection<Room> findARoom(Date checkIn, Date checkout) {
+        return reservationService.findRooms(checkIn, checkout);
     }
 
     public static HotelResources getInstance() {

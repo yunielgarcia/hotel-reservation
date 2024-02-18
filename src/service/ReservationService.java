@@ -5,16 +5,14 @@ import model.IRoom;
 import model.Reservation;
 import model.Room;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ReservationService {
 
     private final static ReservationService reference = new ReservationService();
 
-    private final Map<String, Reservation> reservations = new HashMap<String, Reservation>();
+    private final Map<String, Collection<Reservation>> reservations = new HashMap<String, Collection<Reservation>>();
     private final Map<String, Room> rooms = new HashMap<>();
 
     public static ReservationService getInstance() {
@@ -22,30 +20,70 @@ public class ReservationService {
     }
 
     public void addRoom(Room room) {
+        // todo: add validation for non duplicates rooms numbers
+        // room number must be unique
         this.rooms.put(room.getRoomNumber(), room);
     }
 
-    public IRoom getRoom(String roomId) {
-        return null;
+    public Room getRoom(String roomId) {
+        return rooms.getOrDefault(roomId, null);
     }
 
     public Collection<Room> getAllRooms() {
         return rooms.values();
     }
 
-    public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {
-        return null;
+    public Reservation reserveARoom(Customer customer, Room room, Date checkInDate, Date checkOutDate) {
+        Reservation reservation = new Reservation(customer, room, checkInDate, checkOutDate);
+
+        Collection<Reservation> customerReservations = reservations.getOrDefault(customer.getEmail(), new ArrayList<>());
+
+        customerReservations.add(reservation);
+
+        if (!reservations.containsKey(customer.getEmail())) {
+            reservations.put(customer.getEmail(), customerReservations);
+        }
+
+        return reservation;
     }
 
-    public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate){
-       return null;
+    public Collection<Room> findRooms(Date checkInDate, Date checkOutDate) {
+        final Collection<Reservation> reservations = getAllReservations();
+        final Set<Room> notAvailableRooms = new HashSet<Room>();
+
+        // analyze existing reservations
+        for (Reservation reservation : reservations) {
+            if (checkConflict(reservation, checkInDate, checkOutDate)) {
+                notAvailableRooms.add(reservation.getRoom());
+            }
+        }
+
+        // return all room except the conflicting ones
+        return rooms.values().stream().filter(room ->
+                        notAvailableRooms.stream().noneMatch(conflictinRoom ->
+                                conflictinRoom.equals(room)))
+                .collect(Collectors.toList());
     }
 
-    public Collection<Reservation> getCustomersReservation(Customer customer){
-        return null;
+    public Collection<Reservation> getCustomersReservation(String email) {
+        return reservations.get(email);
     }
 
     public Collection<Reservation> getAllReservations() {
-        return reservations.values();
+        List<Reservation> allReservations = new ArrayList<>();
+
+        for (Collection<Reservation> customerReservations : reservations.values()) {
+            allReservations.addAll(customerReservations);
+        }
+
+        return allReservations;
+    }
+
+    private boolean checkConflict(Reservation reservation, Date inDate, Date outDate) {
+        return
+                inDate.before(reservation.getOutDate()) && outDate.after(reservation.getOutDate()) ||
+                        inDate.before(reservation.getInDate()) && outDate.before((reservation.getOutDate())) ||
+                        inDate.before(reservation.getInDate()) && outDate.after(reservation.getOutDate()) ||
+                        inDate.after(reservation.getInDate()) && outDate.before(reservation.getOutDate());
     }
 }

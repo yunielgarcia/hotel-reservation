@@ -26,4 +26,8 @@ public class Customer {
     public String toString() {
         return this.firstName + " " + this.lastName;
     }
+
+    public String getEmail() {
+        return this.email;
+    }
 }
