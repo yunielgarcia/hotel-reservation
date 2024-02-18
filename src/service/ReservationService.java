@@ -1,7 +1,6 @@
 package service;
 
 import model.Customer;
-import model.IRoom;
 import model.Reservation;
 import model.Room;
 
@@ -12,7 +11,7 @@ public class ReservationService {
 
     private final static ReservationService reference = new ReservationService();
 
-    private final Map<String, Collection<Reservation>> reservations = new HashMap<String, Collection<Reservation>>();
+    private final Map<String, Collection<Reservation>> reservations = new HashMap<>();
     private final Map<String, Room> rooms = new HashMap<>();
 
     public static ReservationService getInstance() {
@@ -20,8 +19,6 @@ public class ReservationService {
     }
 
     public void addRoom(Room room) {
-        // todo: add validation for non duplicates rooms numbers
-        // room number must be unique
         this.rooms.put(room.getRoomNumber(), room);
     }
 
@@ -49,7 +46,7 @@ public class ReservationService {
 
     public Collection<Room> findRooms(Date checkInDate, Date checkOutDate) {
         final Collection<Reservation> reservations = getAllReservations();
-        final Set<Room> notAvailableRooms = new HashSet<Room>();
+        final Set<Room> notAvailableRooms = new HashSet<>();
 
         // analyze existing reservations
         for (Reservation reservation : reservations) {
