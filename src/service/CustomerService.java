@@ -6,7 +6,7 @@ import java.util.*;
 
 public class CustomerService {
 
-    Map<String, Customer> customersList = new HashMap<>();
+    private final Map<String, Customer> customersList = new HashMap<>();
 
     private final static CustomerService reference = new CustomerService();
 

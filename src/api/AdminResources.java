@@ -2,6 +2,7 @@ package api;
 
 import model.Customer;
 import model.IRoom;
+import model.Reservation;
 import model.Room;
 import service.CustomerService;
 import service.ReservationService;
@@ -34,5 +35,7 @@ public class AdminResources {
     public Collection<Customer> getAllCustomers(){
         return this.customerService.getAllCustomers();
     };
-    public void displayAllReservations(){}
+    public Collection<Reservation> displayAllReservations(){
+        return reservationService.getAllReservations();
+    }
 }

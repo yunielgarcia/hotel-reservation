@@ -2,6 +2,7 @@ package ui;
 
 import api.AdminResources;
 import model.Customer;
+import model.Reservation;
 import model.Room;
 import model.RoomType;
 
@@ -26,6 +27,9 @@ public class AdminMenu {
                     break;
                 case 2:
                     seeAllRooms();
+                    break;
+                case 3:
+                    seeAllReservations();
                     break;
                 case 4:
                     addRoom();
@@ -85,7 +89,17 @@ public class AdminMenu {
         adminMenu();
     }
 
-    public static void printAdminOptions() {
+    private static void seeAllReservations() {
+        Collection<Reservation> reservations = adminResources.displayAllReservations();
+        if (reservations.isEmpty()) {
+            System.out.println("No reservation found");
+        } else {
+            reservations.forEach(System.out::println);
+        }
+        adminMenu();
+    }
+
+    private static void printAdminOptions() {
         System.out.println("Admin Menu");
         System.out.println("---------------------------------------------------");
         System.out.println("1. See all Customers");

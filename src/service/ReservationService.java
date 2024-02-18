@@ -14,7 +14,7 @@ public class ReservationService {
 
     private final static ReservationService reference = new ReservationService();
 
-    private Map<String, Reservation> mapOfReservations = new HashMap<String, Reservation>();
+    private final Map<String, Reservation> reservations = new HashMap<String, Reservation>();
     private final Map<String, Room> rooms = new HashMap<>();
 
     public static ReservationService getInstance() {
@@ -45,7 +45,7 @@ public class ReservationService {
         return null;
     }
 
-    public void printAllReservations() {
-
+    public Collection<Reservation> getAllReservations() {
+        return reservations.values();
     }
 }
