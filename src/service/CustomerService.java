@@ -18,7 +18,7 @@ public class CustomerService {
     }
 
     public Customer getCustomer(String email) {
-        return this.customersList.get(email);
+        return this.customersList.getOrDefault(email, null);
     }
 
     public Collection<Customer> getAllCustomers() {

@@ -1,21 +1,21 @@
 package model;
 
 public enum RoomType {
-    SINGLE("1"),
-    DOUBLE("2");
+    SINGLE("S"),
+    DOUBLE("D");
 
-    final String numberOption;
+    final String initial;
 
-    RoomType(String numberOption) {
-        this.numberOption = numberOption;
+    RoomType(String stringInitial) {
+        this.initial = stringInitial;
     }
 
-    public static RoomType valueFromNumberOption(String numberOption) {
+    public static RoomType valueFromNumberOption(String initial) {
         for (RoomType r : RoomType.values()) {
-            if (numberOption.equals(r.numberOption)) {
+            if (r.initial.equals(initial)) {
                 return  r;
             }
         }
-        throw new NumberFormatException();
+        throw new IllegalArgumentException();
     }
 }

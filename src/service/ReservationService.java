@@ -5,7 +5,6 @@ import model.Reservation;
 import model.Room;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ReservationService {
 
@@ -47,23 +46,31 @@ public class ReservationService {
     public Collection<Room> findRooms(Date checkInDate, Date checkOutDate) {
         final Collection<Reservation> reservations = getAllReservations();
         final Set<Room> notAvailableRooms = new HashSet<>();
+        final Set<Room> availableRooms = new HashSet<>();
 
         // analyze existing reservations
         for (Reservation reservation : reservations) {
-            if (checkConflict(reservation, checkInDate, checkOutDate)) {
+            if (
+                    checkInDate.before(reservation.getOutDate()) && checkOutDate.after(reservation.getOutDate()) ||
+                            checkInDate.before(reservation.getInDate()) && checkOutDate.before((reservation.getOutDate())) ||
+                            checkInDate.before(reservation.getInDate()) && checkOutDate.after(reservation.getOutDate()) ||
+                            checkInDate.after(reservation.getInDate()) && checkOutDate.before(reservation.getOutDate())
+            ) {
                 notAvailableRooms.add(reservation.getRoom());
             }
         }
 
         // return all room except the conflicting ones
-        return rooms.values().stream().filter(room ->
-                        notAvailableRooms.stream().noneMatch(conflictinRoom ->
-                                conflictinRoom.equals(room)))
-                .collect(Collectors.toList());
+        for (Room r : rooms.values()) {
+            if (!notAvailableRooms.contains(r)) {
+                availableRooms.add(r);
+            }
+        }
+        return availableRooms;
     }
 
     public Collection<Reservation> getCustomersReservation(String email) {
-        return reservations.get(email);
+        return reservations.getOrDefault(email, null);
     }
 
     public Collection<Reservation> getAllReservations() {
@@ -76,11 +83,4 @@ public class ReservationService {
         return allReservations;
     }
 
-    private boolean checkConflict(Reservation reservation, Date inDate, Date outDate) {
-        return
-                inDate.before(reservation.getOutDate()) && outDate.after(reservation.getOutDate()) ||
-                        inDate.before(reservation.getInDate()) && outDate.before((reservation.getOutDate())) ||
-                        inDate.before(reservation.getInDate()) && outDate.after(reservation.getOutDate()) ||
-                        inDate.after(reservation.getInDate()) && outDate.before(reservation.getOutDate());
-    }
 }
