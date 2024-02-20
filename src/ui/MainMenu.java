@@ -22,24 +22,15 @@ public class MainMenu {
         String selection = scanner.nextLine();
 
         switch (selection) {
-            case "1":
-                findAndReserveARoom();
-                break;
-            case "2":
-                seeMyReservations();
-                break;
-            case "3":
-                createAccount();
-                break;
-            case "4":
-                adminMenu();
-                break;
-            case "5":
-                System.out.println("Thanks for using our app.");
-                break;
-            default:
+            case "1" -> findAndReserveARoom();
+            case "2" -> seeMyReservations();
+            case "3" -> createAccount();
+            case "4" -> adminMenu();
+            case "5" -> System.out.println("Thanks for using our app.");
+            default -> {
                 System.out.println("Please enter a valid option number");
                 main(null);
+            }
         }
     }
 

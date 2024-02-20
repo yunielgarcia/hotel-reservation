@@ -22,24 +22,15 @@ public class AdminMenu {
         String adminSelection = scanner.nextLine();
 
         switch (adminSelection) {
-            case "1":
-                seeAllCustomers();
-                break;
-            case "2":
-                seeAllRooms();
-                break;
-            case "3":
-                seeAllReservations();
-                break;
-            case "4":
-                addRoom();
-                break;
-            case "5":
-                main(null);
-                break;
-            default:
+            case "1" -> seeAllCustomers();
+            case "2" -> seeAllRooms();
+            case "3" -> seeAllReservations();
+            case "4" -> addRoom();
+            case "5" -> main(null);
+            default -> {
                 System.out.println("Please enter a valid option number");
                 adminMenu();
+            }
         }
     }
 
