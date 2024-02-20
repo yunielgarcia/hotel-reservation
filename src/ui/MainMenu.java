@@ -16,7 +16,7 @@ import static ui.AdminMenu.adminMenu;
 
 public class MainMenu {
 
-    public static void main(String[] args) {
+    public static void start() {
         Scanner scanner = new Scanner(System.in);
         printMainOptions();
         String selection = scanner.nextLine();
@@ -29,7 +29,7 @@ public class MainMenu {
             case "5" -> System.out.println("Thanks for using our app.");
             default -> {
                 System.out.println("Please enter a valid option number");
-                main(null);
+                start();
             }
         }
     }
@@ -46,7 +46,7 @@ public class MainMenu {
 
         Utils.printCollection(clientReservations);
 
-        main(null);
+        start();
     }
 
     private static void findAndReserveARoom() {
@@ -61,7 +61,7 @@ public class MainMenu {
         Utils.printCollection(availableRooms);
 
         if (availableRooms == null || availableRooms.isEmpty()) {
-            main(null);
+            start();
         } else {
             validateDecisionToReserve(availableRooms, checkIn, checkOut);
         }
@@ -111,7 +111,7 @@ public class MainMenu {
             try {
                 hotelResources.createCustomer(email, first, last);
                 System.out.println("Customer added!");
-                main(null);
+                start();
             } catch (Exception exception) {
                 System.out.println("Invalid Input data for adding a customer");
                 createAccount();
@@ -129,7 +129,7 @@ public class MainMenu {
         if (decision.equals("y")) {
             validateIfHasAccount(availableRooms, checkInDate, checkOutDate);
         } else if (decision.equals("n")) {
-            main(null);
+            start();
         } else {
             System.out.println("Wrong answer please start again");
             validateDecisionToReserve(availableRooms, checkInDate, checkOutDate);
@@ -145,10 +145,10 @@ public class MainMenu {
 
         if (hasAccount.equals("y")) {
             makeReservation(availableRooms, checkInDate, checkOutDate);
-            main(null);
+            start();
         } else if (hasAccount.equals("n")) {
             System.out.println("Please, create an account.");
-            main(null);
+            start();
         } else {
             System.out.println("Wrong answer please say 'y' or 'n' ...");
             validateIfHasAccount(availableRooms, checkInDate, checkOutDate);
@@ -165,7 +165,7 @@ public class MainMenu {
 
         if (customer == null) {
             System.out.println("Wrong email/account. You can try to create a new account.");
-            main(null);
+            start();
         } else {
             System.out.println("Select a room number to book?");
             final String roomNumber = scanner.nextLine();
@@ -176,10 +176,10 @@ public class MainMenu {
 
                 System.out.println("Reservation created successfully!");
                 System.out.println(reservation);
-                main(null);
+                start();
             } else {
                 System.out.println("Error: room number not found.");
-                main(null);
+                start();
             }
         }
     }

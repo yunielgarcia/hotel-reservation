@@ -10,7 +10,7 @@ import utils.Utils;
 import java.util.Collection;
 import java.util.Scanner;
 
-import static ui.MainMenu.main;
+import static ui.MainMenu.start;
 
 public class AdminMenu {
 
@@ -26,7 +26,7 @@ public class AdminMenu {
             case "2" -> seeAllRooms();
             case "3" -> seeAllReservations();
             case "4" -> addRoom();
-            case "5" -> main(null);
+            case "5" -> start();
             default -> {
                 System.out.println("Please enter a valid option number");
                 adminMenu();
