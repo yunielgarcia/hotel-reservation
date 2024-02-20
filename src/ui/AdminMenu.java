@@ -36,27 +36,26 @@ public class AdminMenu {
 
     private static void seeAllCustomers() {
         Collection<Customer> customers = adminResources.getAllCustomers();
-        Utils.printCollection(customers);
+        Utils.printCollection(customers, "Customer");
         adminMenu();
     }
 
     private static void seeAllRooms() {
         Collection<Room> rooms = adminResources.getAllRooms();
-        Utils.printCollection(rooms);
+        Utils.printCollection(rooms, "Room");
         adminMenu();
     }
 
     private static void seeAllReservations() {
         Collection<Reservation> reservations = adminResources.displayAllReservations();
-        Utils.printCollection(reservations);
+        Utils.printCollection(reservations, "Reservation");
         adminMenu();
     }
 
     private static void addRoom() {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter room number:");
-        String roomNumber = scanner.nextLine();
+        String roomNumber = String.valueOf(validateRoomNumber());
 
         System.out.println("Enter price per night:");
         double roomPrice = validateRoomPrice();
@@ -66,8 +65,13 @@ public class AdminMenu {
 
         Room room = new Room(roomNumber, roomPrice, roomType);
 
-        adminResources.addRoom(room);
-        System.out.println("Room added successfully!");
+        boolean added = adminResources.addRoom(room);
+
+        if (added) {
+            System.out.println("Room added successfully!");
+        } else {
+            System.out.println("Room already exist.");
+        }
 
         adminMenu();
     }
@@ -83,6 +87,17 @@ public class AdminMenu {
         System.out.println("---------------------------------------------------");
         System.out.println("Please select a number for the menu option");
 
+    }
+
+    private static int validateRoomNumber() {
+        Scanner scanner = new Scanner(System.in);
+        String stringPrice = scanner.nextLine();
+        try {
+            return Integer.parseInt(stringPrice);
+        } catch (NumberFormatException exp) {
+            System.out.println("Invalid room number! Please, enter a valid number.");
+            return validateRoomNumber();
+        }
     }
 
     private static double validateRoomPrice() {

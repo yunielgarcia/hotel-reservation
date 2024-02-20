@@ -20,8 +20,8 @@ public class AdminResources {
         return adminResources;
     }
 
-    public void addRoom(Room room){
-        reservationService.addRoom(room);
+    public boolean addRoom(Room room){
+        return reservationService.addRoom(room);
     }
 
     public Collection<Room> getAllRooms(){

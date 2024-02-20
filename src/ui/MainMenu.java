@@ -44,21 +44,21 @@ public class MainMenu {
 
         Collection<Reservation> clientReservations = hotelResources.getCustomerReservations(clientEmail);
 
-        Utils.printCollection(clientReservations);
+        Utils.printCollection(clientReservations, "Reservations");
 
         start();
     }
 
     private static void findAndReserveARoom() {
-        System.out.println("Enter Check-In Date MM-dd-yy example 02/25/24");
+        System.out.println("Enter Check-In Date MM-dd-yy example 02-25-24");
         Date checkIn = getAndValidateDate();
 
-        System.out.println("Enter Check-Out Date MM-dd-yy example 02/25/24");
+        System.out.println("Enter Check-Out Date MM-dd-yy example 02-25-24");
         Date checkOut = getAndValidateDate();
 
         Collection<Room> availableRooms = hotelResources.findARoom(checkIn, checkOut);
 
-        Utils.printCollection(availableRooms);
+        Utils.printCollection(availableRooms, "Room");
 
         if (availableRooms == null || availableRooms.isEmpty()) {
             start();

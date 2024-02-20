@@ -2,10 +2,11 @@ package utils;
 import java.util.Collection;
 
 public class Utils {
-    public static <T> void printCollection(Collection<T> collection) {
+    public static <T> void printCollection(Collection<T> collection, String resourceName) {
 
         if (collection == null || collection.isEmpty()) {
-            System.out.println("No resources found.");
+            String msg = "No " + resourceName + " resources found.";
+            System.out.println(msg);
         } else {
             for (T t : collection) {
                 System.out.println(t);

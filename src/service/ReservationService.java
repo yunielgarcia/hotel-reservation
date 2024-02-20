@@ -10,7 +10,7 @@ public class ReservationService {
 
     private final static ReservationService reference = new ReservationService();
     private final Map<String, Collection<Reservation>> reservations = new HashMap<>();
-    private final Map<String, Room> rooms = new HashMap<>();
+    private final Set<Room> rooms = new HashSet<>();
 
     private ReservationService() {}
 
@@ -18,16 +18,21 @@ public class ReservationService {
         return ReservationService.reference;
     }
 
-    public void addRoom(Room room) {
-        this.rooms.put(room.getRoomNumber(), room);
+    public boolean addRoom(Room room) {
+        return this.rooms.add(room);
     }
 
     public Room getRoom(String roomId) {
-        return rooms.getOrDefault(roomId, null);
+        for (Room r : rooms) {
+            if (r.getRoomNumber().equals(roomId)) {
+                return r;
+            }
+        }
+        return null;
     }
 
     public Collection<Room> getAllRooms() {
-        return rooms.values();
+        return rooms;
     }
 
     public Reservation reserveARoom(Customer customer, Room room, Date checkInDate, Date checkOutDate) {
@@ -66,7 +71,7 @@ public class ReservationService {
         }
 
         // return all room except the conflicting ones
-        for (Room r : rooms.values()) {
+        for (Room r : rooms) {
             if (!notAvailableRooms.contains(r)) {
                 availableRooms.add(r);
             }
