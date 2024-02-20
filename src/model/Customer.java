@@ -15,7 +15,7 @@ public class Customer {
     }
 
     private void checkEmail(String email) {
-        String emailRegex = "^(.+)@(.+).com$";
+        final String emailRegex = "^(.+)@(.+).com$";
         Pattern pattern = Pattern.compile(emailRegex);
         if (!pattern.matcher(email).matches()) {
             throw new IllegalArgumentException("Error, invalid email");

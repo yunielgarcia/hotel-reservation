@@ -9,9 +9,10 @@ import java.util.*;
 public class ReservationService {
 
     private final static ReservationService reference = new ReservationService();
-
     private final Map<String, Collection<Reservation>> reservations = new HashMap<>();
     private final Map<String, Room> rooms = new HashMap<>();
+
+    private ReservationService() {}
 
     public static ReservationService getInstance() {
         return ReservationService.reference;
@@ -49,12 +50,16 @@ public class ReservationService {
         final Set<Room> availableRooms = new HashSet<>();
 
         // analyze existing reservations
+        // 4 combinations for overlapping
+        // plus 2 more making sure dateIn not equal to reservation's In and Out and same for dayOut
         for (Reservation reservation : reservations) {
             if (
                     checkInDate.before(reservation.getOutDate()) && checkOutDate.after(reservation.getOutDate()) ||
                             checkInDate.before(reservation.getInDate()) && checkOutDate.before((reservation.getOutDate())) ||
                             checkInDate.before(reservation.getInDate()) && checkOutDate.after(reservation.getOutDate()) ||
-                            checkInDate.after(reservation.getInDate()) && checkOutDate.before(reservation.getOutDate())
+                            checkInDate.after(reservation.getInDate()) && checkOutDate.before(reservation.getOutDate()) ||
+                            (checkInDate.equals(reservation.getInDate()) || checkInDate.equals(reservation.getOutDate())) ||
+                            (checkOutDate.equals(reservation.getInDate()) || checkOutDate.equals(reservation.getOutDate()))
             ) {
                 notAvailableRooms.add(reservation.getRoom());
             }
