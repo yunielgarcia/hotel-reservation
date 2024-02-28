@@ -58,15 +58,29 @@ public class MainMenu {
 
         Collection<Room> availableRooms = hotelResources.findARoom(checkIn, checkOut);
 
-        Utils.printCollection(availableRooms, "Room");
-
         if (availableRooms == null || availableRooms.isEmpty()) {
-            start();
+            Date proposedInDate = Utils.modifyDate(checkIn);
+            Date proposedOutDate = Utils.modifyDate(checkOut);
+
+            Collection<Room> alternativeRooms = hotelResources.findARoom(proposedInDate, proposedOutDate);
+            if (alternativeRooms != null && !alternativeRooms.isEmpty()) {
+                System.out.println("There are no rooms for the entered dates." +
+                        " Would you consider booking on these dates ( from " + proposedInDate + " to " + proposedOutDate +
+            " ) for rooms : ");
+                Utils.printCollection(alternativeRooms, "Rooms");
+                validateDecisionToReserve(alternativeRooms, proposedInDate, proposedOutDate);
+            } else {
+                System.out.println("There are no rooms for the entered dates or something close");
+                start();
+            }
         } else {
+            Utils.printCollection(availableRooms, "Room");
             validateDecisionToReserve(availableRooms, checkIn, checkOut);
         }
-
     }
+
+
+
 
     private static Date getAndValidateDate() {
         final Scanner scanner = new Scanner(System.in);
